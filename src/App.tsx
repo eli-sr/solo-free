@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
-const words = [
-  'hello',
-  'world',
-  'typescript',
-  'react',
-  'vite',
-]
+import spanishWords from './assets/spanish_words.txt?raw'
+
+const words = spanishWords.split('\n').map(w => w.trim()).filter(w => w !== '')
 
 function App() {
   const randomIndex = Math.floor(Math.random() * words.length)
