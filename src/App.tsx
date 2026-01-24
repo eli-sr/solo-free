@@ -29,9 +29,13 @@ function App() {
 
   return (
     <>
-      <h1>Train Free</h1>
-      <p>{word}</p>
-      <button onClick={handleNextWord}>Next word</button>
+      <header className='flex fixed items-center w-full h-12'>
+        <span className='p-8 text-xl'>Train Free</span>
+      </header>
+      <main className='relative w-full h-screen'>
+        <p className='absolute top-1/2 left-1/2 text-9xl uppercase -translate-x-1/2 -translate-y-1/2'>{word}</p>
+        <button onClick={handleNextWord} className='absolute top-1/2 left-1/2 mt-32 -translate-x-1/2 -translate-y-1/2'>Next word</button>
+      </main>
     </>
   )
 }
