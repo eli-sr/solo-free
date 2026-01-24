@@ -8,19 +8,24 @@ const words = spanishWords.split('\n').map(w => w.trim()).filter(w => w !== '')
 function App() {
   const randomIndex = Math.floor(Math.random() * words.length)
   const [word, setWord] = useState(words[randomIndex])
+  const [timerKey, setTimerKey] = useState(0)
 
-  const handleNextWord = () => {
+  const getNextWord = () => {
     const randomIndex = Math.floor(Math.random() * words.length)
     setWord(words[randomIndex])
   }
 
+  const handleClickNextWord = () => {
+    getNextWord()
+    setTimerKey(prev => prev + 1)
+  }
+
   useEffect(() => {
     const intervalId = setInterval(() => {
-      console.log('interval')
-      handleNextWord()
+      getNextWord()
     }, 3000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [timerKey]);
 
 
   return (
@@ -32,7 +37,7 @@ function App() {
         <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
           <p key={word} className='text-9xl uppercase fade-in-up'>{word}</p>
         </div>
-        <button onClick={handleNextWord} className='absolute top-1/2 left-1/2 mt-32 -translate-x-1/2 -translate-y-1/2'>Next word</button>
+        <button onClick={handleClickNextWord} className='absolute bottom-8 left-1/2 mt-32 -translate-x-1/2 -translate-y-1/2 bg-neutral-900 text-white px-4 py-2 rounded-xl'>Next word</button>
       </main>
     </>
   )
