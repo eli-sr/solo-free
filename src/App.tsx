@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import './App.css'
 
 import spanishWords from './assets/spanish_words.txt?raw'
+import { PauseIcon, PlayIcon } from '@heroicons/react/24/solid'
+import { ForwardIcon } from '@heroicons/react/24/solid'
 
 const words = spanishWords.split('\n').map(w => w.trim()).filter(w => w !== '')
 
@@ -71,20 +73,16 @@ interface ControlsProps {
 const Controls = ({ timerDuration, onTimerChange, onNext, isPaused, onTogglePause }: ControlsProps) => {
   return (
     <div className='fixed bottom-8 left-1/2 -translate-x-1/2 z-50'>
-      <div className='flex items-center gap-4 border border-white px-6 py-3 rounded-2xl'>
+      <div className='flex items-center gap-4 border border-white p-3 rounded-2xl'>
         <button
           onClick={onTogglePause}
-          className='button w-10 px-0!'
+          className='button'
           title={isPaused ? 'Reanudar' : 'Pausar'}
         >
           {isPaused ? (
-            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='w-5 h-5'>
-              <path d='M8 5v14l11-7z' />
-            </svg>
+            <PlayIcon className='w-5 h-5' />
           ) : (
-            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='w-5 h-5'>
-              <path d='M6 4h4v16H6zm8 0h4v16h-4z' />
-            </svg>
+            <PauseIcon className='w-5 h-5' />
           )}
         </button>
 
@@ -108,8 +106,9 @@ const Controls = ({ timerDuration, onTimerChange, onNext, isPaused, onTogglePaus
         <button
           onClick={onNext}
           className='button'
+          title='Siguiente palabra'
         >
-          Next word
+          <ForwardIcon className='w-5 h-5' />
         </button>
       </div>
     </div>
