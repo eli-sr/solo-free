@@ -10,6 +10,7 @@ function App() {
   const [word, setWord] = useState(words[randomIndex])
   const [timerKey, setTimerKey] = useState(0)
   const [timerDuration, setTimerDuration] = useState(4)
+  const [isPaused, setIsPaused] = useState(false)
 
   const getNextWord = () => {
     const randomIndex = Math.floor(Math.random() * words.length)
@@ -27,11 +28,12 @@ function App() {
   }
 
   useEffect(() => {
+    if (isPaused) return
     const intervalId = setInterval(() => {
       getNextWord()
     }, timerDuration * 1000);
     return () => clearInterval(intervalId);
-  }, [timerKey, timerDuration]);
+  }, [timerKey, timerDuration, isPaused]);
 
 
   return (
@@ -48,6 +50,8 @@ function App() {
           timerDuration={timerDuration}
           onTimerChange={handleTimerChange}
           onNext={handleClickNextWord}
+          isPaused={isPaused}
+          onTogglePause={() => setIsPaused(prev => !prev)}
         />
       </main>
     </>
@@ -60,12 +64,32 @@ interface ControlsProps {
   timerDuration: number
   onTimerChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onNext: () => void
+  isPaused: boolean
+  onTogglePause: () => void
 }
 
-const Controls = ({ timerDuration, onTimerChange, onNext }: ControlsProps) => {
+const Controls = ({ timerDuration, onTimerChange, onNext, isPaused, onTogglePause }: ControlsProps) => {
   return (
     <div className='fixed bottom-8 left-1/2 -translate-x-1/2 z-50'>
       <div className='flex items-center gap-4 border border-white px-6 py-3 rounded-2xl'>
+        <button
+          onClick={onTogglePause}
+          className='button w-10 px-0!'
+          title={isPaused ? 'Reanudar' : 'Pausar'}
+        >
+          {isPaused ? (
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='w-5 h-5'>
+              <path d='M8 5v14l11-7z' />
+            </svg>
+          ) : (
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='w-5 h-5'>
+              <path d='M6 4h4v16H6zm8 0h4v16h-4z' />
+            </svg>
+          )}
+        </button>
+
+        <div className='w-px h-6 bg-neutral-700'></div>
+
         <div className='flex items-center gap-3'>
           <span className='text-xs text-neutral-500 uppercase tracking-wider'>Timer</span>
           <input
@@ -83,7 +107,7 @@ const Controls = ({ timerDuration, onTimerChange, onNext }: ControlsProps) => {
 
         <button
           onClick={onNext}
-          className='bg-white text-neutral-500 px-5 py-2 rounded-xl font-medium text-sm hover:bg-neutral-900 active:scale-95 transition-all hover:text-neutral-300'
+          className='button'
         >
           Next word
         </button>
