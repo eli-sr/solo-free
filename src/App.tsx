@@ -33,7 +33,9 @@ function App() {
         <span className='p-8 text-xl'>Train Free</span>
       </header>
       <main className='relative w-full h-screen'>
-        <p className='absolute top-1/2 left-1/2 text-9xl uppercase -translate-x-1/2 -translate-y-1/2'>{word}</p>
+        <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+          <p key={word} className='text-9xl uppercase fade-in-up'>{word}</p>
+        </div>
         <button onClick={handleNextWord} className='absolute top-1/2 left-1/2 mt-32 -translate-x-1/2 -translate-y-1/2'>Next word</button>
       </main>
     </>
