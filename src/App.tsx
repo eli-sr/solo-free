@@ -13,15 +13,21 @@ function App() {
   const [timerKey, setTimerKey] = useState(0)
   const [timerDuration, setTimerDuration] = useState(4)
   const [isPaused, setIsPaused] = useState(false)
+  const [isExiting, setIsExiting] = useState(false)
 
   const getNextWord = () => {
     const randomIndex = Math.floor(Math.random() * words.length)
     setWord(words[randomIndex])
+    setIsExiting(false)
+    setTimerKey(prev => prev + 1)
   }
 
   const handleClickNextWord = () => {
-    getNextWord()
-    setTimerKey(prev => prev + 1)
+    setIsExiting(true)
+    setTimeout(() => {
+      getNextWord()
+      setTimerKey(prev => prev + 1)
+    }, 200)
   }
 
   const handleTimerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,10 +37,19 @@ function App() {
 
   useEffect(() => {
     if (isPaused) return
-    const intervalId = setInterval(() => {
+
+    const exitTimeoutId = setTimeout(() => {
+      setIsExiting(true)
+    }, (timerDuration * 1000) - 200)
+
+    const changeTimeoutId = setTimeout(() => {
       getNextWord()
-    }, timerDuration * 1000);
-    return () => clearInterval(intervalId);
+    }, timerDuration * 1000)
+
+    return () => {
+      clearTimeout(exitTimeoutId)
+      clearTimeout(changeTimeoutId)
+    }
   }, [timerKey, timerDuration, isPaused]);
 
 
@@ -45,7 +60,7 @@ function App() {
       </header>
       <main className='relative w-full h-screen'>
         <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-          <p key={word} className='text-9xl uppercase fade-in-up'>{word}</p>
+          <p key={word} className={`text-9xl uppercase ${isExiting ? 'fade-out-down' : 'fade-in-up'}`}>{word}</p>
         </div>
 
         <Controls
