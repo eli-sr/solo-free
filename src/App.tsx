@@ -103,8 +103,7 @@ const Controls = ({ timerDuration, onTimerChange, onNext, isPaused, onTogglePaus
 
         <div className='w-px h-6 bg-neutral-700'></div>
 
-        <div className='flex items-center gap-3'>
-          <span className='text-xs text-neutral-500 uppercase tracking-wider'>Timer</span>
+        <div className='flex items-center gap-3 pl-3'>
           <input
             type='range'
             min='2'
