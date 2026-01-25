@@ -70,6 +70,16 @@ function App() {
           isPaused={isPaused}
           onTogglePause={() => setIsPaused(prev => !prev)}
         />
+
+        <div className='fixed bottom-8 right-8 z-40'>
+          <iframe
+            width="300"
+            height="300"
+            allow="autoplay"
+            src="https://w.soundcloud.com/player/?url=https://soundcloud.com/newstreetmelody/sets/trap-beats-rap-beats-freestyle"
+            className="opacity-50 hover:opacity-100 transition-opacity"
+          />
+        </div>
       </main>
     </>
   )
