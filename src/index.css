@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@theme {
+  --font-anton: "Anton", sans-serif;
+  --font-fugaz: "Fugaz One", cursive;
+}
+
 @keyframes fadeInUp {
   from {
       opacity: 0;

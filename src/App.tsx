@@ -55,12 +55,12 @@ function App() {
 
   return (
     <>
-      <header className='flex fixed items-center w-full h-12 px-8 z-50'>
-        <span className='text-xl font-medium'>Train Free</span>
+      <header className='flex fixed items-center w-full h-16 px-8 z-50'>
+        <span className='text-2xl font-anton'>JUST FREE.</span>
       </header>
       <main className='relative w-full h-screen'>
         <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-          <p key={word} className={`text-9xl uppercase ${isExiting ? 'fade-out-down' : 'fade-in-up'}`}>{word}</p>
+          <p key={word} className={`text-9xl uppercase font-fugaz ${isExiting ? 'fade-out-down' : 'fade-in-up'}`}>{word}</p>
         </div>
 
         <Controls
