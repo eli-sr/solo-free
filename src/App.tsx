@@ -11,6 +11,7 @@ function App() {
   const [filterString, setFilterString] = useState('')
   const words = filterString ? filterWords(allWords, filterString) : allWords
 
+  const [usedWords, setUsedWords] = useState<string[]>([])
   const randomIndex = Math.floor(Math.random() * words.length)
   const [word, setWord] = useState(words[randomIndex])
   const [timerKey, setTimerKey] = useState(0)
@@ -18,10 +19,25 @@ function App() {
   const [isPaused, setIsPaused] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
 
+  useEffect(() => {
+    setUsedWords([])
+  }, [filterString])
+
   const getNextWord = () => {
     if (words.length === 0) return
-    const randomIndex = Math.floor(Math.random() * words.length)
-    setWord(words[randomIndex])
+
+    const newUsedWords = [...usedWords, word]
+    let availableWords = words.filter(w => !newUsedWords.includes(w))
+
+    if (availableWords.length === 0) {
+      availableWords = words
+      setUsedWords([])
+    } else {
+      setUsedWords(newUsedWords)
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableWords.length)
+    setWord(availableWords[randomIndex])
     setIsExiting(false)
     setTimerKey(prev => prev + 1)
   }
