@@ -60,7 +60,7 @@ function App() {
   return (
     <>
       <header className='flex fixed items-center w-full h-16 px-8 z-50'>
-        <span className='text-2xl font-anton text-white'>JUST FREE.</span>
+        <span className='text-2xl font-anton text-white'>SOLO FREE.</span>
       </header>
       <main className='relative w-full h-screen bg-zinc-950'>
         <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
