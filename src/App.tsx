@@ -56,11 +56,11 @@ function App() {
   return (
     <>
       <header className='flex fixed items-center w-full h-16 px-8 z-50'>
-        <span className='text-2xl font-anton'>JUST FREE.</span>
+        <span className='text-2xl font-anton text-white'>JUST FREE.</span>
       </header>
-      <main className='relative w-full h-screen'>
+      <main className='relative w-full h-screen bg-zinc-950'>
         <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-          <p key={word} className={`text-9xl uppercase font-fugaz ${isExiting ? 'fade-out-down' : 'fade-in-up'}`}>{word}</p>
+          <p key={word} className={`text-9xl uppercase font-fugaz text-white ${isExiting ? 'fade-out-down' : 'fade-in-up'}`}>{word}</p>
         </div>
 
         <Controls
@@ -77,7 +77,7 @@ function App() {
             height="300"
             allow="autoplay"
             src="https://w.soundcloud.com/player/?url=https://soundcloud.com/newstreetmelody/sets/trap-beats-rap-beats-freestyle"
-            className="opacity-50 hover:opacity-100 transition-opacity"
+            className="opacity-50 hover:opacity-100 transition-opacity rounded-xl"
           />
         </div>
       </main>
@@ -98,7 +98,7 @@ interface ControlsProps {
 const Controls = ({ timerDuration, onTimerChange, onNext, isPaused, onTogglePause }: ControlsProps) => {
   return (
     <div className='fixed bottom-8 left-1/2 -translate-x-1/2 z-50'>
-      <div className='flex items-center gap-4 border border-white p-3 rounded-2xl'>
+      <div className='flex items-center gap-4 border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-2 rounded-2xl'>
         <button
           onClick={onTogglePause}
           className='button'
@@ -111,21 +111,21 @@ const Controls = ({ timerDuration, onTimerChange, onNext, isPaused, onTogglePaus
           )}
         </button>
 
-        <div className='w-px h-6 bg-neutral-700'></div>
+        <div className='w-px h-6 bg-zinc-800'></div>
 
-        <div className='flex items-center gap-3 pl-3'>
+        <div className='flex items-center gap-3 px-2'>
           <input
             type='range'
             min='2'
             max='12'
             value={timerDuration}
             onChange={onTimerChange}
-            className='w-36 h-1.5 bg-neutral-700 rounded-full appearance-none cursor-pointer accent-white'
+            className='w-36 h-1.5 bg-zinc-800 rounded-full appearance-none cursor-pointer accent-white hover:accent-zinc-300'
           />
-          <span className='text-sm text-neutral-300 font-medium w-6'>{timerDuration}s</span>
+          <span className='text-sm text-zinc-400 font-medium w-6 tabular-nums'>{timerDuration}s</span>
         </div>
 
-        <div className='w-px h-6 bg-neutral-700'></div>
+        <div className='w-px h-6 bg-zinc-800'></div>
 
         <button
           onClick={onNext}
