@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import './App.css'
 
 import spanishWords from './assets/spanish_words.txt?raw'
-import { PauseIcon, PlayIcon } from '@heroicons/react/24/solid'
+import { PauseIcon, PlayIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import { ForwardIcon } from '@heroicons/react/24/solid'
+import { filterWords } from './utils/wordUtils'
 
-const words = spanishWords.split('\n').map(w => w.trim()).filter(w => w !== '')
+const allWords = spanishWords.split('\n').map(w => w.trim()).filter(w => w !== '')
 
 function App() {
+  const [filterString, setFilterString] = useState('')
+  const words = filterString ? filterWords(allWords, filterString) : allWords
+
   const randomIndex = Math.floor(Math.random() * words.length)
   const [word, setWord] = useState(words[randomIndex])
   const [timerKey, setTimerKey] = useState(0)
@@ -16,6 +20,7 @@ function App() {
   const [isExiting, setIsExiting] = useState(false)
 
   const getNextWord = () => {
+    if (words.length === 0) return
     const randomIndex = Math.floor(Math.random() * words.length)
     setWord(words[randomIndex])
     setIsExiting(false)
@@ -69,6 +74,9 @@ function App() {
           onNext={handleClickNextWord}
           isPaused={isPaused}
           onTogglePause={() => setIsPaused(prev => !prev)}
+          filterString={filterString}
+          onFilterChange={setFilterString}
+          wordsCount={words.length}
         />
 
         <div className='fixed bottom-8 right-8 z-40'>
@@ -93,12 +101,65 @@ interface ControlsProps {
   onNext: () => void
   isPaused: boolean
   onTogglePause: () => void
+  filterString: string
+  onFilterChange: (value: string) => void
+  wordsCount: number
 }
 
-const Controls = ({ timerDuration, onTimerChange, onNext, isPaused, onTogglePause }: ControlsProps) => {
+const Controls = ({ timerDuration, onTimerChange, onNext, isPaused, onTogglePause, filterString, onFilterChange, wordsCount }: ControlsProps) => {
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const searchRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false)
+      }
+    }
+
+    if (isSearchOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      inputRef.current?.focus()
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isSearchOpen])
+
   return (
-    <div className='fixed bottom-8 left-1/2 -translate-x-1/2 z-50'>
+    <div className='fixed bottom-8 left-1/2 -translate-x-1/2 z-50' ref={searchRef}>
+      <div className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-3 transition-all duration-200 ease-out ${isSearchOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
+        }`}>
+        <span className='text-xs text-zinc-500 tabular-nums shrink-0 pl-3'>Usa * para cualquier consonante</span>
+        <div className='flex items-center gap-3 border border-zinc-800 bg-zinc-900/80 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-lg shadow-black/20'>
+          <MagnifyingGlassIcon className='w-4 h-4 text-zinc-500 shrink-0' />
+          <input
+            ref={inputRef}
+            type='text'
+            value={filterString}
+            onChange={(e) => onFilterChange(e.target.value)}
+            placeholder='Escribe una terminación'
+            className='bg-transparent text-white text-sm placeholder:text-zinc-500 outline-none w-40'
+          />
+          {filterString && (
+            <span className='text-xs text-zinc-500 tabular-nums shrink-0'>{wordsCount}</span>
+          )}
+        </div>
+      </div>
+
       <div className='flex items-center gap-4 border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-2 rounded-2xl'>
+        <button
+          onClick={() => setIsSearchOpen(!isSearchOpen)}
+          className={`button ${isSearchOpen || filterString ? 'text-white bg-white/10' : ''}`}
+          title='Filtrar palabras'
+        >
+          <MagnifyingGlassIcon className='w-5 h-5' />
+        </button>
+
+        <div className='w-px h-6 bg-zinc-800'></div>
+
         <button
           onClick={onTogglePause}
           className='button'
