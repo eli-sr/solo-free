@@ -76,13 +76,13 @@ function App() {
   return (
     <>
       <header className='flex fixed items-center w-full h-16 px-8 z-50'>
-        <span className='text-2xl font-anton text-white'>SOLO FREE.</span>
+        <span className='text-2xl font-anton text-white select-none'>SOLO FREE.</span>
       </header>
       <main className='relative w-full h-screen bg-zinc-950 px-4'>
         <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] flex justify-center'>
           <p
             key={word}
-            className={`text-center break-words uppercase font-fugaz text-white text-[clamp(1.75rem,calc(100vw/(var(--word-length,1)*0.85)),8rem)] leading-tight ${isExiting ? 'fade-out-down' : 'fade-in-up'}`}
+            className={`text-center break-words uppercase font-fugaz text-white text-[clamp(1.75rem,calc(100vw/(var(--word-length,1)*0.85)),8rem)] leading-tight select-none ${isExiting ? 'fade-out-down' : 'fade-in-up'}`}
             style={{
               '--word-length': Math.max(word.length, 4)
             } as React.CSSProperties}
