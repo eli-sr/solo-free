@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 
 import spanishWords from './assets/spanish_words.txt?raw'
-import { PauseIcon, PlayIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid'
-import { ForwardIcon } from '@heroicons/react/24/solid'
+import { PauseIcon, PlayIcon, MagnifyingGlassIcon, MusicalNoteIcon, ForwardIcon } from '@heroicons/react/24/solid'
 import { filterWords } from './utils/wordUtils'
 
 const allWords = spanishWords.split('\n').map(w => w.trim()).filter(w => w !== '')
@@ -18,6 +17,7 @@ function App() {
   const [timerDuration, setTimerDuration] = useState(4)
   const [isPaused, setIsPaused] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
+  const [showMusicPlayer, setShowMusicPlayer] = useState(false)
 
   useEffect(() => {
     setUsedWords([])
@@ -102,14 +102,24 @@ function App() {
           wordsCount={words.length}
         />
 
-        <div className='fixed top-4 right-4 z-40'>
-          <iframe
-            width="300"
-            height="340"
-            allow="autoplay"
-            src="https://w.soundcloud.com/player/?url=https://soundcloud.com/newstreetmelody/sets/trap-beats-rap-beats-freestyle"
-            className="opacity-30 hover:opacity-80 transition-opacity rounded-xl"
-          />
+        <div className='fixed top-4 right-4 z-50 flex flex-col items-end gap-2'>
+          <button
+            onClick={() => setShowMusicPlayer(!showMusicPlayer)}
+            className='backdrop-blur-md p-2 rounded-xl text-white opacity-50 hover:opacity-100 transition-opacity'
+            title='Reproductor de música'
+          >
+            <MusicalNoteIcon className='w-6 h-6' />
+          </button>
+
+          <div className={`transition-all duration-200 ease-out ${showMusicPlayer ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
+            <iframe
+              width='300'
+              height='340'
+              allow='autoplay'
+              src='https://w.soundcloud.com/player/?url=https://soundcloud.com/newstreetmelody/sets/trap-beats-rap-beats-freestyle'
+              className='rounded-xl'
+            />
+          </div>
         </div>
       </main>
     </>
