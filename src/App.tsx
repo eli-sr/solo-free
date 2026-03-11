@@ -78,9 +78,17 @@ function App() {
       <header className='flex fixed items-center w-full h-16 px-8 z-50'>
         <span className='text-2xl font-anton text-white'>SOLO FREE.</span>
       </header>
-      <main className='relative w-full h-screen bg-zinc-950'>
-        <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-          <p key={word} className={`text-9xl uppercase font-fugaz text-white ${isExiting ? 'fade-out-down' : 'fade-in-up'}`}>{word}</p>
+      <main className='relative w-full h-screen bg-zinc-950 px-4'>
+        <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] flex justify-center'>
+          <p
+            key={word}
+            className={`text-center break-words uppercase font-fugaz text-white text-[clamp(1.75rem,calc(100vw/(var(--word-length,1)*0.85)),8rem)] leading-tight ${isExiting ? 'fade-out-down' : 'fade-in-up'}`}
+            style={{
+              '--word-length': Math.max(word.length, 4)
+            } as React.CSSProperties}
+          >
+            {word}
+          </p>
         </div>
 
         <Controls
@@ -164,7 +172,7 @@ const Controls = ({ timerDuration, onTimerChange, onNext, isPaused, onTogglePaus
         </div>
       </div>
 
-      <div className='flex items-center gap-4 border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-2 rounded-2xl'>
+      <div className='flex items-center md:gap-4 border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm md:p-2 px-1 py-2 rounded-2xl'>
         <button
           onClick={() => setIsSearchOpen(!isSearchOpen)}
           className={`button ${isSearchOpen || filterString ? 'text-white bg-white/10' : ''}`}

@@ -43,6 +43,6 @@
 
 @layer components {
   .button {
-    @apply text-zinc-400 px-5 py-2 rounded-xl font-medium text-sm hover:text-white hover:bg-white/10 active:scale-95 transition-all cursor-pointer flex items-center justify-center;
+    @apply text-zinc-400 px-3 md:px-5 py-2 rounded-xl font-medium text-sm hover:text-white hover:bg-white/10 active:scale-95 transition-all cursor-pointer flex items-center justify-center;
   }
 }
